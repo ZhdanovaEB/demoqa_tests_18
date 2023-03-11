@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.components.Calendar;
 import pages.components.RegistrationResultsModal;
 
