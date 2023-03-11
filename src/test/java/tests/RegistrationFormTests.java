@@ -3,7 +3,9 @@ package tests;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import utils.RandomUtils;
+
 import java.util.Locale;
+
 import static utils.RandomUtils.*;
 
 public class RegistrationFormTests extends TestBase {
@@ -17,12 +19,16 @@ public class RegistrationFormTests extends TestBase {
                 lastName = faker.name().lastName(),
                 userEmail = faker.internet().emailAddress(),
                 userGender = getRandomItemFromArray(genders),
-                userNumber = "9" + faker.phoneNumber(),
+                userNumber = "9" + faker.number().numberBetween(100000000, 999999999),
                 // проще поменять заполнение поля даты, чем писать зависимость дней от месяцев
-                userBirthDay = String.valueOf(faker.number().numberBetween(1, 28)),
+                userBirthDay = String.valueOf(faker.number().numberBetween(10, 28)),
                 userMonthOfBirth = getRandomItemFromArray(months),
                 userYearOfBirth = String.valueOf(faker.number().numberBetween(1900, 2020)),
-                currentAddress = faker.address().fullAddress();
+                userSubjects = getRandomItemFromArray(subjects),
+                userHobbies = getRandomItemFromArray(hobbies),
+                currentAddress = faker.address().fullAddress(),
+                userState = getRandomItemFromArray(states),
+                userCity = getRandomItemFromArray(cities);
 
 
         registrationPage.openPage()
@@ -32,12 +38,12 @@ public class RegistrationFormTests extends TestBase {
                 .setGender(userGender)
                 .setMobile(userNumber)
                 .setBirthDate(userBirthDay, userMonthOfBirth, userYearOfBirth)
-                .setSubjects("Math")
-                .setHobbies("Music")
+                .setSubjects(userSubjects)
+                .setHobbies(userHobbies)
                 .uploadPicture("avatar.png")
                 .setAddress(currentAddress)
-                .setState("Select State", "NCR")
-                .setCity("Select City", "Delhi")
+                .setState(userState)
+                .setCity(userCity)
                 .clickSubmit();
 
         //$("#uploadPicture").uploadFile(new File("src/test/resources/avatar.png"));
@@ -48,10 +54,10 @@ public class RegistrationFormTests extends TestBase {
                 .verifyResult("Gender", userGender)
                 .verifyResult("Mobile", userNumber)
                 .verifyResult("Date of Birth", userBirthDay + " " + userMonthOfBirth + "," + userYearOfBirth)
-                .verifyResult("Subjects", "Maths")
-                .verifyResult("Hobbies", "Music")
+                .verifyResult("Subjects", userSubjects)
+                .verifyResult("Hobbies", userHobbies)
                 .verifyResult("Picture", "avatar.png")
                 .verifyResult("Address", currentAddress)
-                .verifyResult("State and City", "NCR Delhi");
+                .verifyResult("State and City", userState + " " +  userCity);
     }
 }

@@ -81,14 +81,14 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage setState(String key, String value) {
-        $(byText(key)).click();
+    public RegistrationPage setState(String value) {
+        $(byText("Select State")).click();
         $(byText(value)).click();
         return this;
     }
 
-    public RegistrationPage setCity(String key, String value) {
-        $(byText(key)).click();
+    public RegistrationPage setCity(String value) {
+        $(byText("Select City")).click();
         $(byText(value)).click();
         return this;
     }
