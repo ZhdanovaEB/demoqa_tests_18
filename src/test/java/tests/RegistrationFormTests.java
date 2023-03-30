@@ -1,38 +1,63 @@
 package tests;
 
+import com.github.javafaker.Faker;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.util.Locale;
+
+import static utils.RandomUtils.*;
+
+@Tag("simple")
 public class RegistrationFormTests extends TestBase {
 
     @Test
     void successfulRegistration() {
+
+        Faker faker = new Faker(new Locale("en"));
+
+        String firstName = faker.name().firstName(),
+                lastName = faker.name().lastName(),
+                userEmail = faker.internet().emailAddress(),
+                userGender = getRandomItemFromArray(genders),
+                userNumber = "9" + faker.number().numberBetween(100000000, 999999999),
+                // проще поменять заполнение поля даты, чем писать зависимость дней от месяцев
+                userBirthDay = String.valueOf(faker.number().numberBetween(10, 28)),
+                userMonthOfBirth = getRandomItemFromArray(months),
+                userYearOfBirth = String.valueOf(faker.number().numberBetween(1900, 2020)),
+                userSubjects = getRandomItemFromArray(subjects),
+                userHobbies = getRandomItemFromArray(hobbies),
+                currentAddress = faker.address().secondaryAddress(),
+                userState = getRandomItemFromArray(states),
+                userCity = getRandomItemFromArray(cities);
+
+
         registrationPage.openPage()
-                .setFirstName("Ekaterina")
-                .setLastName("Zhdanova")
-                .setEmail("katya@gmail.com")
-                .setGender("Female")
-                .setMobile("9069069966")
-                .setBirthDate("30", "May", "1986")
-                .setSubjects("Math")
-                .setHobbies("Music")
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(userEmail)
+                .setGender(userGender)
+                .setMobile(userNumber)
+                .setBirthDate(userBirthDay, userMonthOfBirth, userYearOfBirth)
+                .setSubjects(userSubjects)
+                .setHobbies(userHobbies)
                 .uploadPicture("avatar.png")
-                .setAddress("Tomsk")
-                .setState("Select State", "NCR")
-                .setCity("Select City", "Delhi")
+                .setAddress(currentAddress)
+                .setState(userState)
+                .setCity(userCity)
                 .clickSubmit();
 
-        //$("#uploadPicture").uploadFile(new File("src/test/resources/avatar.png"));
 
         registrationPage.verifyResultsModalAppears()
-                .verifyResult("Student Name", "Ekaterina Zhdanova")
-                .verifyResult("Student Email", "katya@gmail.com")
-                .verifyResult("Gender", "Female")
-                .verifyResult("Mobile", "9069069966")
-                .verifyResult("Date of Birth", "30 May,1986")
-                .verifyResult("Subjects", "Maths")
-                .verifyResult("Hobbies", "Music")
+                .verifyResult("Student Name", firstName + " " + lastName)
+                .verifyResult("Student Email", userEmail)
+                .verifyResult("Gender", userGender)
+                .verifyResult("Mobile", userNumber)
+                .verifyResult("Date of Birth", userBirthDay + " " + userMonthOfBirth + "," + userYearOfBirth)
+                .verifyResult("Subjects", userSubjects)
+                .verifyResult("Hobbies", userHobbies)
                 .verifyResult("Picture", "avatar.png")
-                .verifyResult("Address", "Tomsk")
-                .verifyResult("State and City", "NCR Delhi");
+                .verifyResult("Address", currentAddress)
+                .verifyResult("State and City", userState + " " +  userCity);
     }
 }
