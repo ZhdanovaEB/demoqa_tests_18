@@ -1,13 +1,14 @@
 package tests;
 
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import utils.RandomUtils;
 
 import java.util.Locale;
 
 import static utils.RandomUtils.*;
 
+@Tag("simple")
 public class RegistrationFormTests extends TestBase {
 
     @Test
@@ -26,7 +27,7 @@ public class RegistrationFormTests extends TestBase {
                 userYearOfBirth = String.valueOf(faker.number().numberBetween(1900, 2020)),
                 userSubjects = getRandomItemFromArray(subjects),
                 userHobbies = getRandomItemFromArray(hobbies),
-                currentAddress = faker.address().fullAddress(),
+                currentAddress = faker.address().secondaryAddress(),
                 userState = getRandomItemFromArray(states),
                 userCity = getRandomItemFromArray(cities);
 
@@ -46,7 +47,6 @@ public class RegistrationFormTests extends TestBase {
                 .setCity(userCity)
                 .clickSubmit();
 
-        //$("#uploadPicture").uploadFile(new File("src/test/resources/avatar.png"));
 
         registrationPage.verifyResultsModalAppears()
                 .verifyResult("Student Name", firstName + " " + lastName)
