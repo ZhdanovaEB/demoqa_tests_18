@@ -26,7 +26,7 @@ public class RegistrationPage {
 
     public RegistrationPage openPage() {
         open("/automation-practice-form");
-        executeJavaScript("$('div').remove()");
+        executeJavaScript("$('div#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         return this;
     }
