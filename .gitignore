@@ -9,8 +9,5 @@ build/
 *.iml
 *.ipr
 
-### Gradle ###
-.gradle
-
 ### Logs ###
 *.log
