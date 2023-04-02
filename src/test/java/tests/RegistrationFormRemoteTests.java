@@ -1,6 +1,7 @@
 package tests;
 
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -14,6 +15,7 @@ import static utils.RandomUtils.*;
 public class RegistrationFormRemoteTests extends RemoteTestBase {
 
     @Test
+    @DisplayName("Успешная регистрация")
     void successfulRegistration() {
 
         Faker faker = new Faker(new Locale("en"));
