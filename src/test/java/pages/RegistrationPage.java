@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import pages.components.Calendar;
 import pages.components.RegistrationResultsModal;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -25,7 +26,7 @@ public class RegistrationPage {
 
     public RegistrationPage openPage() {
         open("/automation-practice-form");
-        executeJavaScript("$('#fixeban').remove()");
+        executeJavaScript("$('div').remove()");
         executeJavaScript("$('footer').remove()");
         return this;
     }
