@@ -1,14 +1,14 @@
 plugins {
     id 'java-library'
-    id 'io.qameta.allure' version '2.10.0'
+    id 'io.qameta.allure' version '2.11.2'
 }
 
 repositories {
     mavenCentral()
 }
 
-def allureVersion = '2.21.0',
-    slf4jVersion = '2.0.5'
+def allureVersion = "2.21.0",
+    slf4jVersion = "2.0.7"
 
 allure {
     report {
@@ -26,20 +26,25 @@ allure {
 
 dependencies {
     testImplementation (
-            'com.codeborne:selenide:6.12.3',
+            "org.aspectj:aspectjweaver:1.9.19",
+            "com.codeborne:selenide:6.11.2",
             "io.qameta.allure:allure-selenide:$allureVersion",
-            'com.github.javafaker:javafaker:1.0.2',
-            'org.junit.jupiter:junit-jupiter:5.9.2',
+            "com.github.javafaker:javafaker:1.0.2",
+            "org.junit.jupiter:junit-jupiter:5.9.2",
             "org.slf4j:slf4j-simple:$slf4jVersion"
     )
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-test {
+tasks.withType(Test) {
     useJUnitPlatform()
+    systemProperties(System.getProperties())
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
 }
 
 task simple_test(type: Test) {
@@ -51,5 +56,23 @@ task simple_test(type: Test) {
 task remote_test(type: Test) {
     useJUnitPlatform {
         includeTags("remote")
+    }
+}
+
+task one_property_test(type: Test) {
+    useJUnitPlatform {
+        includeTags("one_property")
+    }
+}
+
+task many_properties_test(type: Test) {
+    useJUnitPlatform {
+        includeTags("many_properties")
+    }
+}
+
+task hello_test(type: Test) {
+    useJUnitPlatform {
+        includeTags("hello")
     }
 }
