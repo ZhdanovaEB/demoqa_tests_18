@@ -1,0 +1,8 @@
+Telegram username: auto_tests_notification_bot
+Telegram token: 5789684888:AAHEn8RFFjsi9MV8lSVXSvwl9rmk-JNDuwc
+https://api.telegram.org/bot5789684888:AAHEn8RFFjsi9MV8lSVXSvwl9rmk-JNDuwc/getUpdates
+Chat id: 295409271
+
+curl -X POST -H 'Content-Type: application/json' -d '{"chat_id": "295409271", "text": "This is a test from curl", "disable_notification": true}' https://api.telegram.org/bot5789684888:AAHEn8RFFjsi9MV8lSVXSvwl9rmk-JNDuwc/sendMessage
+
+java "-DconfigFile=notifications/config.json" -jar notifications/allure-notifications-4.2.1.jar
